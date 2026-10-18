@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SomaFitX | Tienda Oficial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #07060D;
+            --bg-card: #0F0D1B;
+            --purple-neon: #A000FF;
+            --purple-glow: rgba(160, 0, 255, 0.4);
+            --blue-neon: #00E5FF;
+            --blue-glow: rgba(0, 229, 255, 0.4);
+            --red-neon: #FF1744;
+            --red-glow: rgba(255, 23, 68, 0.5);
+            --text-light: #F0F4F8;
+            --text-muted: #A0A5BA;
+            --border-glow: #1A162B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* HEADER & NAVBAR */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(7, 6, 13, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(160, 0, 255, 0.2);
+            z-index: 1000;
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 48px;
+            width: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--purple-glow), 0 0 10px var(--blue-glow);
+            border: 1px solid var(--blue-neon);
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 900;
+            font-style: italic;
+            background: linear-gradient(135deg, #FFF 30%, var(--blue-neon) 70%, var(--purple-neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--blue-neon);
+            text-shadow: 0 0 8px var(--blue-glow);
+        }
+
+        .cart-icon-btn {
+            position: relative;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .cart-icon-btn:hover {
+            color: var(--blue-neon);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--red-neon);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px var(--red-glow);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            margin-top: 85px;
+            padding: 50px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            min-height: 70vh;
+            background: radial-gradient(circle at 20% 50%, rgba(160, 0, 255, 0.15), transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(0, 229, 255, 0.15), transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 550px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid var(--blue-neon);
+            color: var(--blue-neon);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px var(--blue-glow);
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero-title span.purple {
+            color: var(--purple-neon);
+            text-shadow: 0 0 15px var(--purple-glow);
+        }
+
+        .hero-title span.blue {
+            color: var(--blue-neon);
+            text-shadow: 0 0 15px var(--blue-glow);
+        }
+
+        .slogan-bar {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            border-left: 3px solid var(--purple-neon);
+            padding-left: 15px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--purple-neon), var(--blue-neon));
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 6px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(160, 0, 255, 0.4);
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.6);
+        }
+
+        .hero-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-logo-hero {
+            max-width: 100%;
+            max-height: 420px;
+            border-radius: 20px;
+            box-shadow: 0 0 35px var(--purple-glow), 0 0 35px var(--blue-glow);
+            border: 2px solid rgba(0, 229, 255, 0.3);
+        }
+
+        /* CATEGORIES FILTER BAR */
+        .category-nav-bar {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: #0B0A14;
+            border-y: 1px solid var(--border-glow);
+        }
+
+        .cat-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: linear-gradient(135deg, var(--purple-neon), var(--blue-neon));
+            border-color: var(--blue-neon);
+            box-shadow: 0 0 15px var(--blue-glow);
+            color: #fff;
+        }
+
+        /* PRODUCTS SECTION */
+        .products-section {
+            padding: 50px 5% 80px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: var(--blue-neon);
+            box-shadow: 0 0 20px var(--blue-glow);
+            transform: translateY(-5px);
+        }
+
+        .product-card.featured {
+            border-color: var(--red-neon);
+            box-shadow: 0 0 25px var(--red-glow);
+            background: linear-gradient(180deg, rgba(255, 23, 68, 0.08) 0%, var(--bg-card) 100%);
+        }
+
+        /* IMÁGENES Y ZOOM */
+        .single-img-wrapper, .dual-img-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dual-img-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .img-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .img-wrapper img, .single-img-wrapper img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .dual-img-box .img-wrapper img {
+            height: 240px;
+        }
+
+        .img-wrapper:hover img, .single-img-wrapper:hover img {
+            transform: scale(1.08);
+        }
+
+        .zoom-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            pointer-events: none;
+            border: 1px solid var(--blue-neon);
+        }
+
+        .product-info-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-cat {
+            font-size: 0.75rem;
+            color: var(--blue-neon);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--blue-neon);
+        }
+
+        .product-price.red {
+            color: var(--red-neon);
+            text-shadow: 0 0 10px var(--red-glow);
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: linear-gradient(135deg, var(--purple-neon), var(--blue-neon));
+            color: #fff;
+            font-weight: 800;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .add-to-cart-btn.red-btn {
+            background: linear-gradient(135deg, #FF1744, #B71C1C);
+            box-shadow: 0 0 15px var(--red-glow);
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        .empty-category-msg {
+            display: none;
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* CARRITO LATERAL (DRAWER) */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1500;
+            display: none;
+        }
+
+        .cart-overlay.active {
+            display: block;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 400px;
+            max-width: 90%;
+            height: 100%;
+            background: var(--bg-card);
+            border-left: 1px solid var(--purple-neon);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+            z-index: 1600;
+            transition: right 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .cart-drawer.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cart-header h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .close-cart-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .cart-items-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-price {
+            font-size: 0.85rem;
+            color: var(--blue-neon);
+            font-weight: 800;
+        }
+
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .qty-btn {
+            background: #1A162B;
+            border: 1px solid var(--blue-neon);
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .remove-item-btn {
+            color: var(--red-neon);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 5px;
+        }
+
+        .cart-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 15px;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--blue-neon), var(--purple-neon));
+            border: none;
+            color: #fff;
+            font-weight: 900;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .checkout-btn:hover {
+            box-shadow: 0 0 20px var(--blue-glow);
+        }
+
+        /* MODAL DE ZOOM */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 12px;
+            border: 2px solid var(--blue-neon);
+            box-shadow: 0 0 40px var(--blue-glow);
+            object-fit: contain;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #040308;
+            padding: 40px 5% 20px 5%;
+            border-top: 1px solid rgba(160, 0, 255, 0.2);
+            text-align: center;
+        }
+
+        @media (max-width: 992px) {
+            nav ul {
+                gap: 10px;
+            }
+            nav a {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                margin-top: 130px;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .slogan-bar {
+                justify-content: center;
+                border-left: none;
+                padding-left: 0;
+            }
+            .dual-img-box {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <a href="#" class="logo-container">
+            <img src="LOGO-SOMAFITX.jpeg" alt="SomaFitX Logo" class="logo-img" onerror="this.style.display='none'">
+            <span class="logo-text">SomaFitX</span>
+        </a>
+        
+        <!-- MENU DE NAVEGACION POR CATEGORIAS -->
+        <nav>
+            <ul>
+                <li><a onclick="filterCategory('all')" class="nav-link active">Todos</a></li>
+                <li><a onclick="filterCategory('sudaderas')" class="nav-link">Sudaderas</a></li>
+                <li><a onclick="filterCategory('pants')" class="nav-link">Pants</a></li>
+                <li><a onclick="filterCategory('playeras')" class="nav-link">Playeras</a></li>
+                <li><a onclick="filterCategory('tenis')" class="nav-link">Tenis</a></li>
+                <li><a onclick="filterCategory('exclusivas')" class="nav-link">Colecciones Exclusivas</a></li>
+                <li><a onclick="filterCategory('gorras')" class="nav-link">Gorras</a></li>
+                <li><a onclick="filterCategory('proteinas')" class="nav-link">Proteínas</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-icons">
+            <button class="cart-icon-btn" onclick="toggleCart()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <span class="hero-tag">EDICIÓN EXCLUSIVA</span>
+            <h1 class="hero-title">Evoluciona tu <span class="purple">Fuerza</span> & <span class="blue">Estilo</span></h1>
+            <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin-bottom: 25px;">
+                Colección oficial Spider-Man X Civil Regime. Suplementación y ropa deportiva premium.
+            </p>
+
+            <div class="slogan-bar">
+                <span>FUERZA</span> • <span>DISCIPLINA</span> • <span>RESULTADOS</span>
+            </div>
+
+            <a href="#productos" class="btn-primary">Ver Catálogo</a>
+        </div>
+
+        <div class="hero-image-container">
+            <img src="LOGO-SOMAFITX.jpeg" alt="SomaFitX Logo" class="main-logo-hero" onerror="this.src='https://via.placeholder.com/500x500/0F0D1B/00E5FF?text=SomaFitX'">
+        </div>
+    </section>
+
+    <!-- BARRA DE FILTROS DE CATEGORÍAS -->
+    <div class="category-nav-bar">
+        <button class="cat-btn active" onclick="filterCategory('all')">Todos</button>
+        <button class="cat-btn" onclick="filterCategory('sudaderas')">Sudaderas</button>
+        <button class="cat-btn" onclick="filterCategory('pants')">Pants</button>
+        <button class="cat-btn" onclick="filterCategory('playeras')">Playeras</button>
+        <button class="cat-btn" onclick="filterCategory('tenis')">Tenis</button>
+        <button class="cat-btn" onclick="filterCategory('exclusivas')">Colecciones Exclusivas</button>
+        <button class="cat-btn" onclick="filterCategory('gorras')">Gorras</button>
+        <button class="cat-btn" onclick="filterCategory('proteinas')">Proteínas</button>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <section class="products-section" id="productos">
+        <div class="section-header">
+            <h2 class="section-title" id="categoryTitle">Catálogo de Productos</h2>
+            <p style="color: var(--text-muted);">Haz clic en cualquier imagen para verla en pantalla completa</p>
+        </div>
+
+        <div class="grid-products">
+
+            <!-- CATEGORÍA: SUDADERAS (Rojo) -->
+            <div class="product-card featured" data-category="sudaderas exclusivas">
+                <div class="dual-img-box">
+                    <div class="img-wrapper" onclick="openModal('Sudadera Spiderman Frontal.JPG')">
+                        <img src="Sudadera Spiderman Frontal.JPG" alt="Sudadera Frontal">
+                        <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                    </div>
+                    <div class="img-wrapper" onclick="openModal('Sudadera Spiderman atras.JPG')">
+                        <img src="Sudadera Spiderman atras.JPG" alt="Sudadera Atrás">
+                        <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                    </div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat" style="color: var(--red-neon);">Sudaderas • Colección Exclusiva</span>
+                    <h3 class="product-title">Sudadera Full Zip Civil Regime Spider-Man (Roja)</h3>
+                    <div class="product-price red">$3,599 MXN</div>
+                    <button class="add-to-cart-btn red-btn" onclick="addToCart('Sudadera Civil Regime Spider-Man Roja', 3599, 'Sudadera Spiderman Frontal.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- CATEGORÍA: SUDADERAS (Blanca) -->
+            <div class="product-card featured" data-category="sudaderas exclusivas">
+                <div class="dual-img-box">
+                    <div class="img-wrapper" onclick="openModal('Spiderman Blanca adelante.JPG')">
+                        <img src="Spiderman Blanca adelante.JPG" alt="Playera Blanca Adelante">
+                        <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                    </div>
+                    <div class="img-wrapper" onclick="openModal('Spiderman Blanca Atras.JPG')">
+                        <img src="Spiderman Blanca Atras.JPG" alt="Playera Blanca Atrás">
+                        <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                    </div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat" style="color: var(--red-neon);">Sudaderas • Colección Exclusiva</span>
+                    <h3 class="product-title">Sudadera / Combo Spiderman Blanca (Frente & Atrás)</h3>
+                    <div class="product-price red">$3,599 MXN</div>
+                    <button class="add-to-cart-btn red-btn" onclick="addToCart('Sudadera Spiderman Blanca (Frente & Atrás)', 3599, 'Spiderman Blanca adelante.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- CATEGORÍA: PLAYERAS -->
+            <div class="product-card" data-category="playeras exclusivas">
+                <div class="single-img-wrapper" onclick="openModal('Playera Civil.JPG')">
+                    <img src="Playera Civil.JPG" alt="Playera Civil">
+                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat">Playeras</span>
+                    <h3 class="product-title">Playera Civil</h3>
+                    <div class="product-price">$1,599 MXN</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Playera Civil', 1599, 'Playera Civil.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="playeras exclusivas">
+                <div class="single-img-wrapper" onclick="openModal('Playera Spiderman Gorro.JPG')">
+                    <img src="Playera Spiderman Gorro.JPG" alt="Playera Spiderman Gorro">
+                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat">Playeras</span>
+                    <h3 class="product-title">Playera Spiderman Gorro</h3>
+                    <div class="product-price">$1,599 MXN</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman Gorro', 1599, 'Playera Spiderman Gorro.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="playeras exclusivas">
+                <div class="single-img-wrapper" onclick="openModal('Playera Spiderman Mochila.JPG')">
+                    <img src="Playera Spiderman Mochila.JPG" alt="Playera Spiderman Mochila">
+                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat">Playeras</span>
+                    <h3 class="product-title">Playera Spiderman Mochila</h3>
+                    <div class="product-price">$1,599 MXN</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman Mochila', 1599, 'Playera Spiderman Mochila.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="playeras exclusivas">
+                <div class="single-img-wrapper" onclick="openModal('Playera Spiderman.JPG')">
+                    <img src="Playera Spiderman.JPG" alt="Playera Spiderman">
+                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat">Playeras</span>
+                    <h3 class="product-title">Playera Spiderman</h3>
+                    <div class="product-price">$1,599 MXN</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman', 1599, 'Playera Spiderman.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- MENSAJE PARA CATEGORÍAS VACÍAS -->
+            <div class="empty-category-msg" id="emptyCategoryMsg">
+                <i class="fa-solid fa-box-open" style="font-size: 3rem; color: var(--purple-neon); margin-bottom: 15px;"></i>
+                <p>Próximamente nuevos productos en esta categoría.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CARRITO DE COMPRAS LATERAL (DRAWER) -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3><i class="fa-solid fa-bag-shopping"></i> Tu Carrito</h3>
+            <button class="close-cart-btn" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items-list" id="cartItemsContainer">
+            <p style="text-align: center; color: var(--text-muted); margin-top: 30px;">Tu carrito está vacío.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0 MXN</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Finalizar Compra</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE ZOOM DE IMAGEN -->
+    <div class="image-modal" id="imageModal" onclick="closeModal()">
+        <span class="close-modal-btn">&times;</span>
+        <img id="modalImg" src="" alt="Vista ampliada">
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="contacto">
+        <span class="logo-text">SomaFitX</span>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 15px;">&copy; 2026 SomaFitX. Todos los derechos reservados. Fuerza • Disciplina • Resultados</p>
+    </footer>
+
+    <!-- LÓGICA DE JAVASCRIPT (FILTROS, CARRITO Y ZOOM) -->
+    <script>
+        let cart = [];
+
+        // FILTRADO DE CATEGORÍAS
+        function filterCategory(cat) {
+            const cards = document.querySelectorAll('.product-card');
+            const catBtns = document.querySelectorAll('.cat-btn');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const emptyMsg = document.getElementById('emptyCategoryMsg');
+            const titleEl = document.getElementById('categoryTitle');
+
+            // Actualizar estado activo en botones
+            catBtns.forEach(btn => btn.classList.remove('active'));
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardCats = card.getAttribute('data-category');
+                if (cat === 'all' || cardCats.includes(cat)) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Mostrar/Ocultar mensaje de categoría vacía
+            if (visibleCount === 0) {
+                emptyMsg.style.display = 'block';
+            } else {
+                emptyMsg.style.display = 'none';
+            }
+
+            // Cambiar título de categoría
+            const catNames = {
+                'all': 'Catálogo Completo',
+                'sudaderas': 'Sudaderas',
+                'pants': 'Pants',
+                'playeras': 'Playeras',
+                'tenis': 'Tenis',
+                'exclusivas': 'Colecciones Exclusivas',
+                'gorras': 'Gorras',
+                'proteinas': 'Proteínas'
+            };
+            titleEl.textContent = catNames[cat] || 'Productos';
+        }
+
+        // FUNCIONES DEL CARRITO
+        function addToCart(title, price, image) {
+            const existingItem = cart.find(item => item.title === title);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ title, price, image, quantity: 1 });
+            }
+            updateCartUI();
+            toggleCart(true);
+        }
+
+        function changeQuantity(title, delta) {
+            const item = cart.find(item => item.title === title);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.title !== title);
+                }
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(title) {
+            cart = cart.filter(item => item.title !== title);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const totalEl = document.getElementById('cartTotal');
+            const countEl = document.getElementById('cartCount');
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-muted); margin-top: 30px;">Tu carrito está vacío.</p>';
+                totalEl.textContent = '$0 MXN';
+                countEl.textContent = '0';
+                return;
+            }
+
+            let total = 0;
+            let totalItems = 0;
+            container.innerHTML = '';
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                totalItems += item.quantity;
+
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+                itemEl.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.title}</div>
+                        <div class="cart-item-price">$${item.price.toLocaleString()} MXN</div>
+                        <div class="cart-item-qty">
+                            <button class="qty-btn" onclick="changeQuantity('${item.title}', -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="qty-btn" onclick="changeQuantity('${item.title}', 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-item-btn" onclick="removeFromCart('${item.title}')"><i class="fa-solid fa-trash"></i></button>
+                `;
+                container.appendChild(itemEl);
+            });
+
+            totalEl.textContent = `$${total.toLocaleString()} MXN`;
+            countEl.textContent = totalItems;
+        }
+
+        function toggleCart(forceOpen = false) {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            if (forceOpen || !drawer.classList.contains('active')) {
+                drawer.classList.add('active');
+                overlay.classList.add('active');
+            } else {
+                drawer.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        }
+
+        // MODAL DE IMÁGENES
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = imageSrc;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+        }
+
+        function checkout() {
+            if (cart.length === 0) return alert('El carrito está vacío.');
+            alert('¡Gracias por tu pedido en SomaFitX! Procesando compra...');
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+    </script>
+
+</body>
+</html>
