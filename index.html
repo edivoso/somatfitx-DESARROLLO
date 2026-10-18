@@ -1,954 +1,1039 @@
 <!DOCTYPE html>
-<html lang="es" class="dark scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SomaFitX | Suplementos & Ropa Deportiva</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    <title>SomaFitX | Tienda Oficial</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        darkBg: '#0A0915',
-                        darkCard: '#121026',
-                        neonPurple: '#9D00FF',
-                        neonPurpleGlow: '#D000FF',
-                        neonCyan: '#00E5FF',
-                        neonBlue: '#0088FF',
-                        chromeLight: '#E2E8F0',
-                        chromeDark: '#475569'
-                    },
-                    fontFamily: {
-                        orbitron: ['Orbitron', 'sans-serif'],
-                        rajdhani: ['Rajdhani', 'sans-serif'],
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- SDK Oficial de Mercado Pago -->
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
 
     <style>
-        /* Modern Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0A0915;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #9D00FF, #00E5FF);
-            border-radius: 4px;
+        :root {
+            --bg-dark: #07060D;
+            --bg-card: #0F0D1B;
+            --purple-neon: #A000FF;
+            --purple-glow: rgba(160, 0, 255, 0.4);
+            --blue-neon: #00E5FF;
+            --blue-glow: rgba(0, 229, 255, 0.4);
+            --red-neon: #FF1744;
+            --red-glow: rgba(255, 23, 68, 0.5);
+            --text-light: #F0F4F8;
+            --text-muted: #A0A5BA;
+            --border-glow: #1A162B;
+            --mp-blue: #009EE3;
         }
 
-        /* Chrome Text Effect */
-        .chrome-text {
-            background: linear-gradient(180deg, #FFFFFF 0%, #94A3B8 45%, #334155 50%, #CBD5E1 100%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* HEADER & NAVBAR */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(7, 6, 13, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(160, 0, 255, 0.2);
+            z-index: 1000;
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 48px;
+            width: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--purple-glow), 0 0 10px var(--blue-glow);
+            border: 1px solid var(--blue-neon);
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 900;
+            font-style: italic;
+            background: linear-gradient(135deg, #FFF 30%, var(--blue-neon) 70%, var(--purple-neon));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.8));
+            letter-spacing: 1px;
         }
 
-        /* Dual Neon Glow Effects */
-        .neon-glow-purple {
-            box-shadow: 0 0 15px rgba(157, 0, 255, 0.5), inset 0 0 10px rgba(208, 0, 255, 0.3);
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 18px;
+            flex-wrap: wrap;
         }
-        .neon-glow-cyan {
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.5), inset 0 0 10px rgba(0, 136, 255, 0.3);
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            cursor: pointer;
         }
-        .neon-border-dual {
+
+        nav a:hover, nav a.active {
+            color: var(--blue-neon);
+            text-shadow: 0 0 8px var(--blue-glow);
+        }
+
+        .cart-icon-btn {
             position: relative;
-            background: #121026;
-            border: 1px solid transparent;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        .neon-border-dual::before {
-            content: '';
+
+        .cart-icon-btn:hover {
+            color: var(--blue-neon);
+        }
+
+        .cart-count {
             position: absolute;
-            inset: -1px;
-            border-radius: inherit;
-            padding: 1px;
-            background: linear-gradient(90deg, #9D00FF, #00E5FF);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
+            top: -8px;
+            right: -10px;
+            background: var(--red-neon);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px var(--red-glow);
         }
 
-        .neon-text-purple {
-            text-shadow: 0 0 8px rgba(208, 0, 255, 0.7);
-        }
-        .neon-text-cyan {
-            text-shadow: 0 0 8px rgba(0, 229, 255, 0.7);
+        /* HERO SECTION */
+        .hero {
+            margin-top: 85px;
+            padding: 50px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            min-height: 70vh;
+            background: radial-gradient(circle at 20% 50%, rgba(160, 0, 255, 0.15), transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(0, 229, 255, 0.15), transparent 50%);
         }
 
-        /* Hero Dual Aura Background */
-        .hero-aura {
-            background: radial-gradient(circle at 20% 40%, rgba(157, 0, 255, 0.25) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 60%, rgba(0, 229, 255, 0.25) 0%, transparent 50%);
+        .hero-content {
+            max-width: 550px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid var(--blue-neon);
+            color: var(--blue-neon);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px var(--blue-glow);
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero-title span.purple {
+            color: var(--purple-neon);
+            text-shadow: 0 0 15px var(--purple-glow);
+        }
+
+        .hero-title span.blue {
+            color: var(--blue-neon);
+            text-shadow: 0 0 15px var(--blue-glow);
+        }
+
+        .slogan-bar {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            border-left: 3px solid var(--purple-neon);
+            padding-left: 15px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--purple-neon), var(--blue-neon));
+            color: #fff;
+            text-decoration: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 6px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(160, 0, 255, 0.4);
+            transition: 0.3s;
+        }
+
+        .hero-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-logo-hero {
+            max-width: 100%;
+            max-height: 420px;
+            border-radius: 20px;
+            box-shadow: 0 0 35px var(--purple-glow), 0 0 35px var(--blue-glow);
+            border: 2px solid rgba(0, 229, 255, 0.3);
+        }
+
+        /* BARRA DE FILTROS */
+        .category-nav-bar {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: #0B0A14;
+        }
+
+        .cat-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: linear-gradient(135deg, var(--purple-neon), var(--blue-neon));
+            border-color: var(--blue-neon);
+            color: #fff;
+        }
+
+        /* PRODUCTOS */
+        .products-section {
+            padding: 50px 5% 80px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-card:hover {
+            border-color: var(--blue-neon);
+            box-shadow: 0 0 20px var(--blue-glow);
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(157, 0, 255, 0.3), 0 10px 25px -5px rgba(0, 229, 255, 0.3);
         }
 
-        /* Subtle Pulse Animations */
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.03); }
+        .product-card.featured {
+            border-color: var(--red-neon);
+            box-shadow: 0 0 25px var(--red-glow);
+            background: linear-gradient(180deg, rgba(255, 23, 68, 0.08) 0%, var(--bg-card) 100%);
         }
-        .animate-glow-pulse {
-            animation: pulseGlow 4s infinite ease-in-out;
+
+        .single-img-wrapper, .dual-img-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background: #000;
+        }
+
+        .dual-img-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .img-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .img-wrapper img, .single-img-wrapper img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .dual-img-box .img-wrapper img {
+            height: 240px;
+        }
+
+        .img-wrapper:hover img, .single-img-wrapper:hover img {
+            transform: scale(1.08);
+        }
+
+        .zoom-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            pointer-events: none;
+            border: 1px solid var(--blue-neon);
+        }
+
+        .product-info-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-cat {
+            font-size: 0.75rem;
+            color: var(--blue-neon);
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--blue-neon);
+        }
+
+        .product-price.red {
+            color: var(--red-neon);
+            text-shadow: 0 0 10px var(--red-glow);
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: linear-gradient(135deg, var(--purple-neon), var(--blue-neon));
+            color: #fff;
+            font-weight: 800;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .add-to-cart-btn.red-btn {
+            background: linear-gradient(135deg, #FF1744, #B71C1C);
+            box-shadow: 0 0 15px var(--red-glow);
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        .empty-category-msg {
+            display: none;
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* CARRITO LATERAL (DRAWER) */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1500;
+            display: none;
+        }
+
+        .cart-overlay.active {
+            display: block;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 400px;
+            max-width: 90%;
+            height: 100%;
+            background: var(--bg-card);
+            border-left: 1px solid var(--purple-neon);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+            z-index: 1600;
+            transition: right 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .cart-drawer.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .close-cart-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .cart-items-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-price {
+            font-size: 0.85rem;
+            color: var(--blue-neon);
+            font-weight: 800;
+        }
+
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .qty-btn {
+            background: #1A162B;
+            border: 1px solid var(--blue-neon);
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .remove-item-btn {
+            color: var(--red-neon);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .cart-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 15px;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        /* BOTÓN MERCADO PAGO */
+        .mp-checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--mp-blue);
+            border: none;
+            color: #fff;
+            font-weight: 900;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 0 15px rgba(0, 158, 227, 0.4);
+        }
+
+        .mp-checkout-btn:hover {
+            box-shadow: 0 0 25px rgba(0, 158, 227, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* MODAL DE ZOOM */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 12px;
+            border: 2px solid var(--blue-neon);
+            box-shadow: 0 0 40px var(--blue-glow);
+            object-fit: contain;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+        }
+
+        footer {
+            background: #040308;
+            padding: 40px 5% 20px 5%;
+            border-top: 1px solid rgba(160, 0, 255, 0.2);
+            text-align: center;
+        }
+
+        @media (max-width: 992px) {
+            nav ul {
+                gap: 10px;
+            }
+            nav a {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                margin-top: 130px;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .slogan-bar {
+                justify-content: center;
+                border-left: none;
+                padding-left: 0;
+            }
+            .dual-img-box {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-<body class="bg-darkBg text-slate-100 font-sans selection:bg-neonPurple selection:text-white min-h-screen flex flex-col justify-between overflow-x-hidden">
+<body>
 
-    <!-- TOP ANNOUNCEMENT BAR -->
-    <div class="bg-gradient-to-r from-neonPurple via-purple-900 to-neonCyan text-center py-1.5 px-4 text-xs font-rajdhani tracking-widest font-bold uppercase text-white flex justify-center items-center gap-3">
-        <span><i class="fa-solid fa-bolt text-yellow-300 mr-1"></i> ENVÍO GRATIS EN COMPRAS MAYORES A $999 MXN</span>
-        <span class="hidden md:inline">•</span>
-        <span class="hidden md:inline"><i class="fa-solid fa-shield-halved text-cyan-300 mr-1"></i> 100% GARANTÍA DE SATISFACCIÓN</span>
-    </div>
+    <!-- NAVBAR -->
+    <header>
+        <a href="#" class="logo-container">
+            <img src="LOGO-SOMAFITX.jpeg" alt="SomaFitX Logo" class="logo-img" onerror="this.style.display='none'">
+            <span class="logo-text">SomaFitX</span>
+        </a>
+        
+        <nav>
+            <ul>
+                <li><a onclick="filterCategory('all')" class="nav-link active">Todos</a></li>
+                <li><a onclick="filterCategory('sudaderas')" class="nav-link">Sudaderas</a></li>
+                <li><a onclick="filterCategory('pants')" class="nav-link">Pants</a></li>
+                <li><a onclick="filterCategory('playeras')" class="nav-link">Playeras</a></li>
+                <li><a onclick="filterCategory('tenis')" class="nav-link">Tenis</a></li>
+                <li><a onclick="filterCategory('exclusivas')" class="nav-link">Colecciones Exclusivas</a></li>
+                <li><a onclick="filterCategory('gorras')" class="nav-link">Gorras</a></li>
+                <li><a onclick="filterCategory('proteinas')" class="nav-link">Proteínas</a></li>
+            </ul>
+        </nav>
 
-    <!-- HEADER / NAVIGATION -->
-    <header class="sticky top-0 z-40 bg-darkBg/90 backdrop-blur-md border-b border-purple-900/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-            
-            <!-- Mobile Menu Toggle -->
-            <button id="mobileMenuBtn" class="lg:hidden text-2xl text-slate-300 hover:text-cyan-400 transition">
-                <i class="fa-solid fa-bars"></i>
+        <div class="nav-icons">
+            <button class="cart-icon-btn" onclick="toggleCart()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="cartCount">0</span>
             </button>
-
-            <!-- LOGO SOMA FIT X -->
-            <a href="#" class="flex items-center gap-2 group">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-neonPurple to-neonCyan p-[2px] flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                    <div class="w-full h-full bg-darkBg rounded-[6px] flex items-center justify-center font-orbitron font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-neonPurpleGlow to-neonCyan">
-                        SFX
-                    </div>
-                </div>
-                <div class="flex flex-col">
-                    <span class="font-orbitron font-black text-2xl sm:text-3xl tracking-wider chrome-text flex items-center">
-                        SomaFit<span class="text-neonCyan italic drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">X</span>
-                    </span>
-                    <span class="text-[9px] font-rajdhani font-semibold tracking-[0.25em] text-purple-300 uppercase -mt-1">
-                        Fuerza • Disciplina
-                    </span>
-                </div>
-            </a>
-
-            <!-- NAV LINKS -->
-            <nav class="hidden lg:flex items-center space-x-8 font-rajdhani font-semibold text-lg tracking-wide">
-                <a href="#hero" class="text-neonCyan hover:text-white transition flex items-center gap-1"><i class="fa-solid fa-house text-xs"></i> Inicio</a>
-                <a href="#catalogo" class="text-slate-300 hover:text-neonPurpleGlow transition">Ropa Deportiva</a>
-                <a href="#catalogo" class="text-slate-300 hover:text-neonCyan transition">Suplementos</a>
-                <a href="#nosotros" class="text-slate-300 hover:text-neonPurpleGlow transition">Nosotros</a>
-                <a href="#contacto" class="text-slate-300 hover:text-neonCyan transition">Contacto</a>
-            </nav>
-
-            <!-- SEARCH & ACTIONS -->
-            <div class="flex items-center space-x-4">
-                <!-- Search Input Desktop -->
-                <div class="relative hidden sm:block w-44 md:w-60">
-                    <input type="text" id="searchInput" placeholder="Buscar productos..." 
-                        class="w-full bg-darkCard/80 border border-purple-800/50 rounded-full py-1.5 pl-9 pr-4 text-xs font-sans text-slate-200 placeholder-slate-400 focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan transition">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                </div>
-
-                <!-- User Account -->
-                <button class="text-slate-300 hover:text-neonPurpleGlow p-2 transition">
-                    <i class="fa-regular fa-user text-xl"></i>
-                </button>
-
-                <!-- Shopping Cart Icon -->
-                <button id="cartBtn" class="relative p-2 text-slate-300 hover:text-neonCyan transition group">
-                    <i class="fa-solid fa-bag-shopping text-2xl"></i>
-                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-gradient-to-r from-neonPurple to-neonCyan text-white text-[10px] font-bold font-orbitron w-5 h-5 rounded-full flex items-center justify-center shadow-[0_0_10px_rgba(157,0,255,0.8)] border border-darkBg">
-                        0
-                    </span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Menu Dropdown -->
-        <div id="mobileMenu" class="hidden lg:hidden bg-darkCard/95 border-b border-purple-800/50 px-6 py-4 space-y-3 font-rajdhani font-semibold text-lg">
-            <div class="relative mb-3">
-                <input type="text" id="searchInputMobile" placeholder="Buscar productos..." 
-                    class="w-full bg-darkBg border border-purple-800/50 rounded-full py-2 pl-9 pr-4 text-sm text-slate-200">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
-            </div>
-            <a href="#hero" class="block text-neonCyan hover:text-white">Inicio</a>
-            <a href="#catalogo" class="block text-slate-300 hover:text-neonPurpleGlow">Ropa Deportiva</a>
-            <a href="#catalogo" class="block text-slate-300 hover:text-neonCyan">Suplementos</a>
-            <a href="#nosotros" class="block text-slate-300 hover:text-neonPurpleGlow">Nosotros</a>
-            <a href="#contacto" class="block text-slate-300 hover:text-neonCyan">Contacto</a>
         </div>
     </header>
 
     <!-- HERO SECTION -->
-    <section id="hero" class="relative overflow-hidden hero-aura border-b border-purple-900/30 py-12 lg:py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            <!-- Left Column: Copy & Taglines -->
-            <div class="lg:col-span-7 space-y-6 text-center lg:text-left z-10">
-                <!-- Badge -->
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-darkCard border border-purple-500/40 text-purple-300 text-xs font-rajdhani font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(157,0,255,0.2)]">
-                    <span class="w-2 h-2 rounded-full bg-neonCyan animate-ping"></span>
-                    SUPLEMENTOS • ROPA DEPORTIVA
-                </div>
-
-                <!-- Main Heading -->
-                <h1 class="font-orbitron text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-none uppercase">
-                    DESATA TU <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neonPurpleGlow via-purple-300 to-neonCyan italic drop-shadow-[0_0_15px_rgba(157,0,255,0.6)]">
-                        POTENCIAL X
-                    </span>
-                </h1>
-
-                <!-- Subtitle / Banner Tagline from logo -->
-                <p class="font-rajdhani text-lg sm:text-xl text-slate-300 font-semibold tracking-wide max-w-2xl mx-auto lg:mx-0">
-                    Equípate con la mejor indumentaria de alto rendimiento y la suplementación avanzada para dominar tu entrenamiento.
-                </p>
-
-                <!-- Core Slogan Pill -->
-                <div class="inline-flex flex-wrap justify-center lg:justify-start items-center gap-2 sm:gap-4 font-orbitron font-bold text-xs sm:text-sm text-slate-200 bg-slate-900/80 p-3 rounded-xl border border-slate-700/60 shadow-inner">
-                    <span class="text-neonPurpleGlow font-black">FUERZA</span>
-                    <span class="text-purple-500">•</span>
-                    <span class="text-slate-100 font-black">DISCIPLINA</span>
-                    <span class="text-cyan-500">•</span>
-                    <span class="text-neonCyan font-black">RESULTADOS</span>
-                </div>
-
-                <!-- CTA Buttons -->
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-                    <a href="#catalogo" onclick="filterCategory('ropa')" class="w-full sm:w-auto px-8 py-3.5 rounded-xl font-orbitron font-bold text-sm tracking-wider uppercase text-white bg-gradient-to-r from-neonPurple to-purple-800 hover:from-purple-600 hover:to-neonPurple shadow-[0_0_20px_rgba(157,0,255,0.6)] transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-shirt"></i> Explorar Ropa
-                    </a>
-                    <a href="#catalogo" onclick="filterCategory('suplementos')" class="w-full sm:w-auto px-8 py-3.5 rounded-xl font-orbitron font-bold text-sm tracking-wider uppercase text-darkBg bg-neonCyan hover:bg-cyan-300 shadow-[0_0_20px_rgba(0,229,255,0.6)] transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-vial"></i> Ver Suplementos
-                    </a>
-                </div>
-            </div>
-
-            <!-- Right Column: Visual Feature Banner / Card -->
-            <div class="lg:col-span-5 relative flex justify-center items-center z-10">
-                <!-- Dual Glowing Ring Background Effect -->
-                <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-neonPurple/40 to-neonCyan/40 filter blur-3xl -z-10 animate-glow-pulse"></div>
-                
-                <div class="relative w-full max-w-md bg-darkCard/90 rounded-2xl p-6 border border-purple-500/30 backdrop-blur-md shadow-2xl overflow-hidden group">
-                    <div class="absolute -top-12 -right-12 w-32 h-32 bg-neonCyan/20 rounded-full blur-2xl"></div>
-                    <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-neonPurple/20 rounded-full blur-2xl"></div>
-
-                    <div class="relative z-10 space-y-4">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                            <span class="text-xs font-orbitron font-bold text-neonCyan tracking-widest uppercase"><i class="fa-solid fa-fire mr-1"></i> NUEVA COLECCIÓN</span>
-                            <span class="bg-neonPurple/20 text-neonPurpleGlow border border-neonPurple/50 text-[10px] font-bold px-2 py-0.5 rounded-full font-orbitron">EDICIÓN PRO</span>
-                        </div>
-
-                        <!-- Product Hero Highlight Image -->
-                        <div class="relative h-64 rounded-xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center group-hover:border-neonCyan/50 transition">
-                            <img id="heroImage" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" alt="SomaFitX Collection" class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500 opacity-80">
-                            
-                            <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent"></div>
-                            
-                            <!-- Floating Tag -->
-                            <div class="absolute bottom-3 left-3 right-3 bg-darkBg/90 backdrop-blur-md p-3 rounded-lg border border-purple-500/40 flex justify-between items-center">
-                                <div>
-                                    <p class="font-orbitron font-bold text-sm text-white">Outfit Cyber-Performance</p>
-                                    <p class="text-xs text-slate-400 font-rajdhani">Tecnología Dry-Fit + Fit Anatómico</p>
-                                </div>
-                                <span class="font-orbitron font-black text-neonCyan text-lg">$899</span>
-                            </div>
-                        </div>
-
-                        <!-- Mini Stats Grid -->
-                        <div class="grid grid-cols-3 gap-2 text-center pt-1 font-rajdhani">
-                            <div class="bg-darkBg/60 p-2 rounded-lg border border-slate-800">
-                                <span class="block font-orbitron font-bold text-neonPurpleGlow text-sm">+35%</span>
-                                <span class="text-[10px] text-slate-400">Rendimiento</span>
-                            </div>
-                            <div class="bg-darkBg/60 p-2 rounded-lg border border-slate-800">
-                                <span class="block font-orbitron font-bold text-slate-100 text-sm">Ultra</span>
-                                <span class="text-[10px] text-slate-400">Resistente</span>
-                            </div>
-                            <div class="bg-darkBg/60 p-2 rounded-lg border border-slate-800">
-                                <span class="block font-orbitron font-bold text-neonCyan text-sm">100%</span>
-                                <span class="text-[10px] text-slate-400">Garantizado</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- MAIN STORE SECTION / CATALOG -->
-    <section id="catalogo" class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 w-full">
-        
-        <!-- Section Header -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-slate-800 pb-4">
-            <div>
-                <h2 class="font-orbitron font-extrabold text-2xl sm:text-3xl text-slate-100 uppercase tracking-wide flex items-center gap-2">
-                    <span class="w-3 h-8 bg-gradient-to-b from-neonPurple to-neonCyan rounded-sm inline-block"></span>
-                    Catálogo de Productos
-                </h2>
-                <p class="text-slate-400 text-sm font-rajdhani font-semibold tracking-wider mt-1">
-                    SELECCIONA TU EQUIPAMIENTO Y SUPLEMENTACIÓN DE ALTA GAMA
-                </p>
-            </div>
-
-            <!-- Category Filter Buttons -->
-            <div class="flex flex-wrap gap-2 font-rajdhani font-bold text-sm">
-                <button onclick="filterCategory('todos')" id="filter-todos" class="filter-btn active px-4 py-2 rounded-lg bg-gradient-to-r from-neonPurple to-neonCyan text-white shadow-md transition">
-                    Todos
-                </button>
-                <button onclick="filterCategory('hombre')" id="filter-hombre" class="filter-btn px-4 py-2 rounded-lg bg-darkCard border border-slate-800 text-slate-300 hover:border-purple-500 hover:text-white transition">
-                    Ropa Hombre
-                </button>
-                <button onclick="filterCategory('mujer')" id="filter-mujer" class="filter-btn px-4 py-2 rounded-lg bg-darkCard border border-slate-800 text-slate-300 hover:border-cyan-500 hover:text-white transition">
-                    Ropa Mujer
-                </button>
-                <button onclick="filterCategory('suplementos')" id="filter-suplementos" class="filter-btn px-4 py-2 rounded-lg bg-darkCard border border-slate-800 text-slate-300 hover:border-purple-500 hover:text-white transition">
-                    Suplementos
-                </button>
-                <button onclick="filterCategory('accesorios')" id="filter-accesorios" class="filter-btn px-4 py-2 rounded-lg bg-darkCard border border-slate-800 text-slate-300 hover:border-cyan-500 hover:text-white transition">
-                    Accesorios
-                </button>
-            </div>
-        </div>
-
-        <!-- PRODUCTS GRID -->
-        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Product cards will be rendered dynamically by JavaScript -->
-        </div>
-
-    </section>
-
-    <!-- WHY CHOOSE SOMAFITX -->
-    <section id="nosotros" class="bg-darkCard/60 border-y border-purple-900/30 py-16 my-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <h2 class="font-orbitron font-extrabold text-2xl sm:text-3xl chrome-text uppercase tracking-wider">
-                    ¿POR QUÉ ELEGIR SOMAFITX?
-                </h2>
-                <p class="text-slate-400 font-rajdhani font-semibold text-base mt-2">
-                    Ingeniería textil y suplementación pura enfocada en maximizar tus límites físicos.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Feature 1 -->
-                <div class="bg-darkBg p-6 rounded-xl border border-purple-900/40 hover:border-neonPurple transition text-center space-y-3 group">
-                    <div class="w-14 h-14 mx-auto rounded-xl bg-purple-900/30 border border-purple-500/50 flex items-center justify-center text-neonPurpleGlow text-2xl group-hover:scale-110 transition shadow-[0_0_15px_rgba(157,0,255,0.3)]">
-                        <i class="fa-solid fa-gem"></i>
-                    </div>
-                    <h3 class="font-orbitron font-bold text-slate-100 text-lg">Calidad Premium</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">
-                        Telas de alta compresión transpirables y materia prima pura con certificaciones de grado farmacéutico.
-                    </p>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="bg-darkBg p-6 rounded-xl border border-cyan-900/40 hover:border-neonCyan transition text-center space-y-3 group">
-                    <div class="w-14 h-14 mx-auto rounded-xl bg-cyan-900/30 border border-cyan-500/50 flex items-center justify-center text-neonCyan text-2xl group-hover:scale-110 transition shadow-[0_0_15px_rgba(0,229,255,0.3)]">
-                        <i class="fa-solid fa-truck-fast"></i>
-                    </div>
-                    <h3 class="font-orbitron font-bold text-slate-100 text-lg">Envío Rápido 24/48h</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">
-                        Despacho inmediato a todo el país con rastreo en tiempo real y empaque térmico protector.
-                    </p>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="bg-darkBg p-6 rounded-xl border border-purple-900/40 hover:border-neonPurple transition text-center space-y-3 group">
-                    <div class="w-14 h-14 mx-auto rounded-xl bg-purple-900/30 border border-purple-500/50 flex items-center justify-center text-neonPurpleGlow text-2xl group-hover:scale-110 transition shadow-[0_0_15px_rgba(157,0,255,0.3)]">
-                        <i class="fa-solid fa-atom"></i>
-                    </div>
-                    <h3 class="font-orbitron font-bold text-slate-100 text-lg">Diseños Exclusivos</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">
-                        Estética deportiva Cyberpunk y cortes ergonómicos pensados para resaltar la anatomía muscular.
-                    </p>
-                </div>
-
-                <!-- Feature 4 -->
-                <div class="bg-darkBg p-6 rounded-xl border border-cyan-900/40 hover:border-neonCyan transition text-center space-y-3 group">
-                    <div class="w-14 h-14 mx-auto rounded-xl bg-cyan-900/30 border border-cyan-500/50 flex items-center justify-center text-neonCyan text-2xl group-hover:scale-110 transition shadow-[0_0_15px_rgba(0,229,255,0.3)]">
-                        <i class="fa-solid fa-vial-circle-check"></i>
-                    </div>
-                    <h3 class="font-orbitron font-bold text-slate-100 text-lg">Rendimiento Probado</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">
-                        Fórmulas testeadas por atletas de alto rendimiento. Sin ingredientes de relleno ni azúcares añadidos.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SHOPPING CART DRAWER CANVAS -->
-    <div id="cartDrawerBackdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity duration-300 opacity-0"></div>
-    
-    <div id="cartDrawer" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-darkCard border-l border-purple-900/50 z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between shadow-2xl">
-        <!-- Drawer Header -->
-        <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-darkBg">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-bag-shopping text-neonCyan text-xl"></i>
-                <h3 class="font-orbitron font-bold text-slate-100 text-lg">Tu Carrito SFX</h3>
-            </div>
-            <button id="closeCartBtn" class="text-slate-400 hover:text-white p-2 text-xl">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <!-- Drawer Items List -->
-        <div id="cartItemsContainer" class="p-4 space-y-4 overflow-y-auto flex-1 divide-y divide-slate-800">
-            <!-- Rendered by JavaScript -->
-        </div>
-
-        <!-- Drawer Footer / Total & Checkout -->
-        <div class="p-4 border-t border-slate-800 bg-darkBg space-y-3">
-            <div class="flex justify-between items-center text-sm">
-                <span class="text-slate-400 font-rajdhani font-semibold">Subtotal:</span>
-                <span id="cartSubtotal" class="font-orbitron font-bold text-slate-100">$0.00 MXN</span>
-            </div>
-            <div class="flex justify-between items-center text-sm">
-                <span class="text-slate-400 font-rajdhani font-semibold">Envío:</span>
-                <span id="cartShipping" class="font-orbitron font-bold text-neonCyan">GRATIS</span>
-            </div>
-            <div class="flex justify-between items-center text-lg pt-2 border-t border-slate-800">
-                <span class="font-orbitron font-bold text-slate-100">Total:</span>
-                <span id="cartTotal" class="font-orbitron font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-neonPurpleGlow to-neonCyan">$0.00 MXN</span>
-            </div>
-
-            <button onclick="checkout()" class="w-full py-3.5 rounded-xl font-orbitron font-bold text-sm tracking-wider uppercase text-white bg-gradient-to-r from-neonPurple via-purple-700 to-neonCyan hover:opacity-90 transition shadow-[0_0_15px_rgba(157,0,255,0.5)] flex items-center justify-center gap-2">
-                Proceder al Pago <i class="fa-solid fa-arrow-right text-xs"></i>
-            </button>
-            <p class="text-[10px] text-center text-slate-500 font-rajdhani uppercase">
-                <i class="fa-solid fa-lock mr-1"></i> Transacción 100% Cifrada y Segura
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <span class="hero-tag">EDICIÓN EXCLUSIVA</span>
+            <h1 class="hero-title">Evoluciona tu <span class="purple">Fuerza</span> & <span class="blue">Estilo</span></h1>
+            <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin-bottom: 25px;">
+                Colección oficial Spider-Man X Civil Regime. Pagos 100% seguros con Mercado Pago.
             </p>
+
+            <div class="slogan-bar">
+                <span>FUERZA</span> • <span>DISCIPLINA</span> • <span>RESULTADOS</span>
+            </div>
+
+            <a href="#productos" class="btn-primary">Ver Catálogo</a>
+        </div>
+
+        <div class="hero-image-container">
+            <img src="LOGO-SOMAFITX.jpeg" alt="SomaFitX Logo" class="main-logo-hero" onerror="this.src='https://via.placeholder.com/500x500/0F0D1B/00E5FF?text=SomaFitX'">
+        </div>
+    </section>
+
+    <!-- BARRA DE FILTROS -->
+    <div class="category-nav-bar">
+        <button class="cat-btn active" onclick="filterCategory('all')">Todos</button>
+        <button class="cat-btn" onclick="filterCategory('sudaderas')">Sudaderas</button>
+        <button class="cat-btn" onclick="filterCategory('pants')">Pants</button>
+        <button class="cat-btn" onclick="filterCategory('playeras')">Playeras</button>
+        <button class="cat-btn" onclick="filterCategory('tenis')">Tenis</button>
+        <button class="cat-btn" onclick="filterCategory('exclusivas')">Colecciones Exclusivas</button>
+        <button class="cat-btn" onclick="filterCategory('gorras')">Gorras</button>
+        <button class="cat-btn" onclick="filterCategory('proteinas')">Proteínas</button>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <section class="products-section" id="productos">
+        <div class="section-header">
+            <h2 class="section-title" id="categoryTitle">Catálogo de Productos</h2>
+            <p style="color: var(--text-muted);">Aceptamos Tarjetas de Crédito, Débito y Efectivo vía Mercado Pago</p>
+        </div>
+
+        <div class="grid-products">
+
+            <!-- SUDADERA ROJA -->
+            <div class="product-card featured" data-category="sudaderas exclusivas">
+                <div class="dual-img-box">
+                    <div class="img-wrapper" onclick="openModal('Sudadera Spiderman Frontal.JPG')">
+                        <img src="Sudadera Spiderman Frontal.JPG" alt="Sudadera Frontal">
+                        <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                    </div>
+                    <div class="img-wrapper" onclick="openModal('Sudadera Spiderman atras.JPG')">
+                        <img src="Sudadera Spiderman atras.JPG" alt="Sudadera Atrás">
+                        <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                    </div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat" style="color: var(--red-neon);">Sudaderas • Colección Exclusiva</span>
+                    <h3 class="product-title">Sudadera Full Zip Civil Regime Spider-Man (Roja)</h3>
+                    <div class="product-price red">$3,599 MXN</div>
+                    <button class="add-to-cart-btn red-btn" onclick="addToCart('Sudadera Civil Regime Spider-Man Roja', 3599, 'Sudadera Spiderman Frontal.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- SUDADERA BLANCA -->
+            <div class="product-card featured" data-category="sudaderas exclusivas">
+                <div class="dual-img-box">
+                    <div class="img-wrapper" onclick="openModal('Spiderman Blanca adelante.JPG')">
+                        <img src="Spiderman Blanca adelante.JPG" alt="Playera Blanca Adelante">
+                        <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                    </div>
+                    <div class="img-wrapper" onclick="openModal('Spiderman Blanca Atras.JPG')">
+                        <img src="Spiderman Blanca Atras.JPG" alt="Playera Blanca Atrás">
+                        <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                    </div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat" style="color: var(--red-neon);">Sudaderas • Colección Exclusiva</span>
+                    <h3 class="product-title">Sudadera / Combo Spiderman Blanca (Frente & Atrás)</h3>
+                    <div class="product-price red">$3,599 MXN</div>
+                    <button class="add-to-cart-btn red-btn" onclick="addToCart('Sudadera Spiderman Blanca (Frente & Atrás)', 3599, 'Spiderman Blanca adelante.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <!-- PLAYERAS -->
+            <div class="product-card" data-category="playeras exclusivas">
+                <div class="single-img-wrapper" onclick="openModal('Playera Civil.JPG')">
+                    <img src="Playera Civil.JPG" alt="Playera Civil">
+                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat">Playeras</span>
+                    <h3 class="product-title">Playera Civil</h3>
+                    <div class="product-price">$1,599 MXN</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Playera Civil', 1599, 'Playera Civil.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="playeras exclusivas">
+                <div class="single-img-wrapper" onclick="openModal('Playera Spiderman Gorro.JPG')">
+                    <img src="Playera Spiderman Gorro.JPG" alt="Playera Spiderman Gorro">
+                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat">Playeras</span>
+                    <h3 class="product-title">Playera Spiderman Gorro</h3>
+                    <div class="product-price">$1,599 MXN</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman Gorro', 1599, 'Playera Spiderman Gorro.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="playeras exclusivas">
+                <div class="single-img-wrapper" onclick="openModal('Playera Spiderman Mochila.JPG')">
+                    <img src="Playera Spiderman Mochila.JPG" alt="Playera Spiderman Mochila">
+                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat">Playeras</span>
+                    <h3 class="product-title">Playera Spiderman Mochila</h3>
+                    <div class="product-price">$1,599 MXN</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman Mochila', 1599, 'Playera Spiderman Mochila.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="playeras exclusivas">
+                <div class="single-img-wrapper" onclick="openModal('Playera Spiderman.JPG')">
+                    <img src="Playera Spiderman.JPG" alt="Playera Spiderman">
+                    <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass"></i> Ver</div>
+                </div>
+                <div class="product-info-details">
+                    <span class="product-cat">Playeras</span>
+                    <h3 class="product-title">Playera Spiderman</h3>
+                    <div class="product-price">$1,599 MXN</div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman', 1599, 'Playera Spiderman.JPG')">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+
+            <div class="empty-category-msg" id="emptyCategoryMsg">
+                <i class="fa-solid fa-box-open" style="font-size: 3rem; color: var(--purple-neon); margin-bottom: 15px;"></i>
+                <p>Próximamente nuevos productos en esta categoría.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CARRITO DE COMPRAS LATERAL CON INTEGRACIÓN A MERCADO PAGO -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3><i class="fa-solid fa-bag-shopping"></i> Tu Carrito</h3>
+            <button class="close-cart-btn" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items-list" id="cartItemsContainer">
+            <p style="text-align: center; color: var(--text-muted); margin-top: 30px;">Tu carrito está vacío.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0 MXN</span>
+            </div>
+            
+            <!-- BOTÓN DE COBRO MERCADO PAGO -->
+            <button class="mp-checkout-btn" onclick="payWithMercadoPago()">
+                <i class="fa-solid fa-credit-card"></i> Pagar con Mercado Pago
+            </button>
         </div>
     </div>
 
-    <!-- QUICK VIEW MODAL -->
-    <div id="quickViewModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-darkCard border border-purple-500/40 rounded-2xl max-w-2xl w-full p-6 relative overflow-hidden shadow-2xl">
-            <button onclick="closeQuickView()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl z-10">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            
-            <div id="quickViewContent" class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-                <!-- Injected via JS -->
-            </div>
-        </div>
+    <!-- MODAL DE ZOOM -->
+    <div class="image-modal" id="imageModal" onclick="closeModal()">
+        <span class="close-modal-btn">&times;</span>
+        <img id="modalImg" src="" alt="Vista ampliada">
     </div>
 
     <!-- FOOTER -->
-    <footer id="contacto" class="bg-darkBg border-t border-purple-900/40 text-slate-400 font-sans text-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
-                
-                <!-- Brand Info -->
-                <div class="lg:col-span-2 space-y-4">
-                    <a href="#" class="flex items-center gap-2">
-                        <span class="font-orbitron font-black text-2xl chrome-text">
-                            SomaFit<span class="text-neonCyan italic">X</span>
-                        </span>
-                    </a>
-                    <p class="text-xs text-slate-400 leading-relaxed max-w-sm font-rajdhani font-semibold">
-                        SomaFitX es la marca líder en indumentaria deportiva cyberpunk y suplementación avanzada. Diseñado para atletas que exigen lo absoluto en estética y desempeño.
-                    </p>
-                    <div class="pt-2 flex items-center gap-3">
-                        <a href="#" class="w-9 h-9 rounded-lg bg-darkCard border border-slate-800 flex items-center justify-center text-slate-300 hover:text-neonPurpleGlow hover:border-neonPurple transition"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="w-9 h-9 rounded-lg bg-darkCard border border-slate-800 flex items-center justify-center text-slate-300 hover:text-neonCyan hover:border-neonCyan transition"><i class="fa-brands fa-tiktok"></i></a>
-                        <a href="#" class="w-9 h-9 rounded-lg bg-darkCard border border-slate-800 flex items-center justify-center text-slate-300 hover:text-neonPurpleGlow hover:border-neonPurple transition"><i class="fa-brands fa-youtube"></i></a>
-                        <a href="#" class="w-9 h-9 rounded-lg bg-darkCard border border-slate-800 flex items-center justify-center text-slate-300 hover:text-neonCyan hover:border-neonCyan transition"><i class="fa-brands fa-facebook-f"></i></a>
-                    </div>
-                </div>
-
-                <!-- Navigation Links -->
-                <div>
-                    <h4 class="font-orbitron font-bold text-slate-100 text-sm mb-4 uppercase text-neonPurpleGlow">Categorías</h4>
-                    <ul class="space-y-2 text-xs font-rajdhani font-semibold">
-                        <li><a href="#catalogo" onclick="filterCategory('hombre')" class="hover:text-neonCyan transition">Ropa Hombre</a></li>
-                        <li><a href="#catalogo" onclick="filterCategory('mujer')" class="hover:text-neonCyan transition">Ropa Mujer</a></li>
-                        <li><a href="#catalogo" onclick="filterCategory('suplementos')" class="hover:text-neonCyan transition">Proteínas & BCAAs</a></li>
-                        <li><a href="#catalogo" onclick="filterCategory('suplementos')" class="hover:text-neonCyan transition">Pre-Entrenos</a></li>
-                        <li><a href="#catalogo" onclick="filterCategory('accesorios')" class="hover:text-neonCyan transition">Shakers & Accesorios</a></li>
-                    </ul>
-                </div>
-
-                <!-- Help Links -->
-                <div>
-                    <h4 class="font-orbitron font-bold text-slate-100 text-sm mb-4 uppercase text-neonCyan">Ayuda</h4>
-                    <ul class="space-y-2 text-xs font-rajdhani font-semibold">
-                        <li><a href="#" class="hover:text-white transition">Estado de mi Pedido</a></li>
-                        <li><a href="#" class="hover:text-white transition">Guía de Tallas</a></li>
-                        <li><a href="#" class="hover:text-white transition">Políticas de Envío</a></li>
-                        <li><a href="#" class="hover:text-white transition">Devoluciones y Garantía</a></li>
-                        <li><a href="#" class="hover:text-white transition">Preguntas Frecuentes</a></li>
-                    </ul>
-                </div>
-
-                <!-- Newsletter -->
-                <div>
-                    <h4 class="font-orbitron font-bold text-slate-100 text-sm mb-4 uppercase text-neonPurpleGlow">Únete al Team SFX</h4>
-                    <p class="text-xs text-slate-400 mb-3 font-rajdhani font-semibold">Recibe un 15% de descuento en tu primera compra y lanzamientos exclusivos.</p>
-                    <form onsubmit="subscribeNewsletter(event)" class="space-y-2">
-                        <input type="email" required placeholder="Tu correo electrónico..." class="w-full bg-darkCard border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-neonPurple">
-                        <button type="submit" class="w-full py-2 bg-gradient-to-r from-neonPurple to-neonCyan rounded-lg text-white font-orbitron font-bold text-xs uppercase hover:opacity-90 transition">
-                            Suscribirme
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Bottom Copyright & Payment Badges -->
-            <div class="border-t border-slate-800/80 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-rajdhani">
-                <p class="text-slate-500 text-center md:text-left">
-                    &copy; 2026 <span class="text-slate-300 font-bold">SomaFitX</span>. Todos los derechos reservados. Fuerza • Disciplina • Resultados.
-                </p>
-                <div class="flex items-center space-x-4 text-slate-400 text-lg">
-                    <i class="fa-brands fa-cc-visa" title="Visa"></i>
-                    <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
-                    <i class="fa-brands fa-cc-paypal" title="PayPal"></i>
-                    <i class="fa-brands fa-apple-pay" title="Apple Pay"></i>
-                </div>
-            </div>
-        </div>
+    <footer id="contacto">
+        <span class="logo-text">SomaFitX</span>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 15px;">&copy; 2026 SomaFitX. Todos los derechos reservados. Pagos procesados por Mercado Pago.</p>
     </footer>
 
-    <!-- NOTIFICATION TOAST -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-darkCard border border-neonCyan p-4 rounded-xl shadow-[0_0_20px_rgba(0,229,255,0.4)] z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-neonCyan/20 text-neonCyan flex items-center justify-center">
-            <i class="fa-solid fa-check"></i>
-        </div>
-        <div>
-            <h5 id="toastTitle" class="font-orbitron font-bold text-slate-100 text-xs">¡Producto Añadido!</h5>
-            <p id="toastMessage" class="text-xs text-slate-300 font-rajdhani">Se ha agregado a tu carrito de compras.</p>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT -->
     <script>
-        // PRODUCT DATABASE
-        const products = [
-            {
-                id: 1,
-                name: "Camiseta Oversized Gym 'SomaFitX'",
-                category: "hombre",
-                price: 549,
-                badge: "Bestseller",
-                badgeColor: "from-neonPurple to-purple-800",
-                rating: 5.0,
-                reviews: 128,
-                image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80",
-                description: "Corte Oversized ergonómico con algodón peinado súper suave y estampado Cyber-Metal en espalda."
-            },
-            {
-                id: 2,
-                name: "Leggings High-Waist Seamless",
-                category: "mujer",
-                price: 799,
-                badge: "Popular",
-                badgeColor: "from-neonCyan to-blue-700",
-                rating: 4.9,
-                reviews: 94,
-                image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=600&q=80",
-                description: "Efecto Push-Up moldeador, cintura alta sin costuras que no se transparenta al entrenar."
-            },
-            {
-                id: 3,
-                name: "Whey Protein Isolate 100% Ultra-Pure (2.2kg)",
-                category: "suplementos",
-                price: 1399,
-                badge: "Premium",
-                badgeColor: "from-neonPurple to-neonCyan",
-                rating: 5.0,
-                reviews: 210,
-                image: "https://images.unsplash.com/photo-1593095948071-474c5cc2989d?auto=format&fit=crop&w=600&q=80",
-                description: "27g de proteína aislada por servida, 0g azúcares añadidos, enriquecida con enzimas digestivas."
-            },
-            {
-                id: 4,
-                name: "Pre-Entreno Nitro 'Cyber-Energy' (30 Servs)",
-                category: "suplementos",
-                price: 899,
-                badge: "Oferta",
-                badgeColor: "from-amber-500 to-red-600",
-                rating: 4.8,
-                reviews: 87,
-                image: "https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?auto=format&fit=crop&w=600&q=80",
-                description: "Pump muscular salvaje y enfoque mental extremo con 350mg de cafeína anhidra y beta-alanina."
-            },
-            {
-                id: 5,
-                name: "Hoodie 'SomaFitX' Tech Fleece Black",
-                category: "hombre",
-                price: 1099,
-                badge: "Nuevo",
-                badgeColor: "from-emerald-500 to-teal-700",
-                rating: 4.9,
-                reviews: 45,
-                image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80",
-                description: "Sudadera técnica térmicamente aislada para entrenamientos exteriores y estilo urbano activo."
-            },
-            {
-                id: 6,
-                name: "Top Deportivo High-Impact Neon Violet",
-                category: "mujer",
-                price: 599,
-                badge: "Bestseller",
-                badgeColor: "from-neonPurple to-purple-800",
-                rating: 4.7,
-                reviews: 62,
-                image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80",
-                description: "Soporte máximo para entrenamientos intensos HIIT con tirantes cruzados y almohadillas removibles."
-            },
-            {
-                id: 7,
-                name: "Shaker Metálico Térmico Pro 'SomaFitX' 750ml",
-                category: "accesorios",
-                price: 449,
-                badge: "Edición Limitada",
-                badgeColor: "from-cyan-500 to-blue-800",
-                rating: 5.0,
-                reviews: 156,
-                image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
-                description: "Acero inoxidable de doble pared que mantiene tus bebidas frías hasta por 24 horas. Antiderrames."
-            },
-            {
-                id: 8,
-                name: "BCAA + Electrólitos Hydration Matrix",
-                category: "suplementos",
-                price: 649,
-                badge: "Esencial",
-                badgeColor: "from-purple-600 to-indigo-800",
-                rating: 4.8,
-                reviews: 73,
-                image: "https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&w=600&q=80",
-                description: "Recuperación acelerada inter-entrenamiento con aminoácidos en proporción 2:1:1 y sodio/potasio."
-            }
-        ];
-
-        // CART STATE
-        let cart = [];
-
-        // DOM ELEMENTS
-        const productsGrid = document.getElementById('productsGrid');
-        const cartBtn = document.getElementById('cartBtn');
-        const closeCartBtn = document.getElementById('closeCartBtn');
-        const cartDrawer = document.getElementById('cartDrawer');
-        const cartDrawerBackdrop = document.getElementById('cartDrawerBackdrop');
-        const cartBadge = document.getElementById('cartBadge');
-        const cartItemsContainer = document.getElementById('cartItemsContainer');
-        const cartSubtotal = document.getElementById('cartSubtotal');
-        const cartTotal = document.getElementById('cartTotal');
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const searchInput = document.getElementById('searchInput');
-
-        // INITIALIZE RENDER
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProducts(products);
-            setupEventListeners();
+        // CONFIGURACIÓN OFICIAL DE MERCADO PAGO CON TU PUBLIC KEY
+        const mp = new MercadoPago('APP_USR-822acc14-5180-4015-aa7e-c3437cf6ac76', {
+            locale: 'es-MX'
         });
 
-        // RENDER PRODUCTS
-        function renderProducts(productList) {
-            productsGrid.innerHTML = '';
+        // LINKS OFICIALES DE PAGO DE MERCADO PAGO
+        const MP_LINK_1599 = 'https://mpago.la/323n2a1';
+        const MP_LINK_3599 = 'https://mpago.la/2xTZKmB';
 
-            if (productList.length === 0) {
-                productsGrid.innerHTML = `
-                    <div class="col-span-full text-center py-12 text-slate-400 font-rajdhani text-lg">
-                        <i class="fa-solid fa-magnifying-glass text-3xl mb-3 text-neonPurple"></i>
-                        <p>No se encontraron productos que coincidan con tu búsqueda.</p>
-                    </div>
-                `;
-                return;
-            }
+        let cart = [];
 
-            productList.forEach(product => {
-                const stars = '★'.repeat(Math.floor(product.rating)) + (product.rating % 1 !== 0 ? '½' : '');
-                const card = document.createElement('div');
-                card.className = "product-card bg-darkCard border border-slate-800 rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between group relative";
-                
-                card.innerHTML = `
-                    <!-- Badge -->
-                    <div class="absolute top-3 left-3 z-10">
-                        <span class="bg-gradient-to-r ${product.badgeColor} text-white font-orbitron font-bold text-[10px] uppercase px-2.5 py-1 rounded-md shadow-md">
-                            ${product.badge}
-                        </span>
-                    </div>
+        // FILTROS DE CATEGORÍA
+        function filterCategory(cat) {
+            const cards = document.querySelectorAll('.product-card');
+            const catBtns = document.querySelectorAll('.cat-btn');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const emptyMsg = document.getElementById('emptyCategoryMsg');
+            const titleEl = document.getElementById('categoryTitle');
 
-                    <!-- Quick View Overlay Button -->
-                    <button onclick="openQuickView(${product.id})" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-darkBg/80 text-slate-300 hover:text-neonCyan border border-slate-700 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                        <i class="fa-regular fa-eye text-xs"></i>
-                    </button>
+            catBtns.forEach(btn => btn.classList.remove('active'));
+            navLinks.forEach(link => link.classList.remove('active'));
 
-                    <!-- Product Image -->
-                    <div class="relative h-56 overflow-hidden bg-slate-900 cursor-pointer" onclick="openQuickView(${product.id})">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-90">
-                        <div class="absolute inset-0 bg-gradient-to-t from-darkCard via-transparent to-transparent opacity-80"></div>
-                    </div>
+            let visibleCount = 0;
 
-                    <!-- Product Body -->
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-                        <div>
-                            <div class="flex justify-between items-center text-xs text-slate-400 font-rajdhani mb-1">
-                                <span class="uppercase tracking-wider font-semibold text-neonCyan">${product.category}</span>
-                                <span class="text-amber-400 flex items-center gap-1 font-bold">
-                                    <i class="fa-solid fa-star text-[10px]"></i> ${product.rating} (${product.reviews})
-                                </span>
-                            </div>
-                            <h3 class="font-orbitron font-bold text-slate-100 text-sm leading-snug line-clamp-2 group-hover:text-neonPurpleGlow transition">
-                                ${product.name}
-                            </h3>
-                        </div>
-
-                        <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between">
-                            <div>
-                                <span class="text-[10px] text-slate-500 block uppercase font-rajdhani">Precio</span>
-                                <span class="font-orbitron font-extrabold text-slate-100 text-lg">$${product.price} <span class="text-xs text-slate-400 font-normal">MXN</span></span>
-                            </div>
-
-                            <button onclick="addToCart(${product.id})" class="px-4 py-2 rounded-xl bg-gradient-to-r from-neonPurple to-neonCyan text-white font-orbitron font-bold text-xs uppercase hover:shadow-[0_0_15px_rgba(157,0,255,0.6)] transition active:scale-95 flex items-center gap-1.5">
-                                <i class="fa-solid fa-cart-plus"></i> Agregar
-                            </button>
-                        </div>
-                    </div>
-                `;
-                productsGrid.appendChild(card);
-            });
-        }
-
-        // CATEGORY FILTER LOGIC
-        function filterCategory(category) {
-            // Update Active Button Styling
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            filterBtns.forEach(btn => {
-                btn.className = "filter-btn px-4 py-2 rounded-lg bg-darkCard border border-slate-800 text-slate-300 hover:border-purple-500 hover:text-white transition";
+            cards.forEach(card => {
+                const cardCats = card.getAttribute('data-category');
+                if (cat === 'all' || cardCats.includes(cat)) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
             });
 
-            const activeBtn = document.getElementById(`filter-${category}`);
-            if (activeBtn) {
-                activeBtn.className = "filter-btn active px-4 py-2 rounded-lg bg-gradient-to-r from-neonPurple to-neonCyan text-white shadow-md transition";
-            }
+            emptyMsg.style.display = (visibleCount === 0) ? 'block' : 'none';
 
-            if (category === 'todos') {
-                renderProducts(products);
-            } else {
-                const filtered = products.filter(p => p.category === category);
-                renderProducts(filtered);
-            }
+            const catNames = {
+                'all': 'Catálogo Completo',
+                'sudaderas': 'Sudaderas',
+                'pants': 'Pants',
+                'playeras': 'Playeras',
+                'tenis': 'Tenis',
+                'exclusivas': 'Colecciones Exclusivas',
+                'gorras': 'Gorras',
+                'proteinas': 'Proteínas'
+            };
+            titleEl.textContent = catNames[cat] || 'Productos';
         }
 
-        // ADD TO CART
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            const existingItem = cart.find(item => item.id === productId);
-
+        // FUNCIONES DE CARRITO
+        function addToCart(title, price, image) {
+            const existingItem = cart.find(item => item.title === title);
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({ ...product, quantity: 1 });
+                cart.push({ title, price, image, quantity: 1 });
             }
-
             updateCartUI();
-            showToast("¡Producto Añadido!", `${product.name} se agregó al carrito.`);
+            toggleCart(true);
         }
 
-        // UPDATE CART UI
-        function updateCartUI() {
-            // Badge Counter
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartBadge.textContent = totalItems;
+        function changeQuantity(title, delta) {
+            const item = cart.find(item => item.title === title);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.title !== title);
+                }
+            }
+            updateCartUI();
+        }
 
-            // Container Items
-            cartItemsContainer.innerHTML = '';
+        function removeFromCart(title) {
+            cart = cart.filter(item => item.title !== title);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const totalEl = document.getElementById('cartTotal');
+            const countEl = document.getElementById('cartCount');
 
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = `
-                    <div class="text-center py-12 text-slate-500 font-rajdhani">
-                        <i class="fa-solid fa-basket-shopping text-4xl mb-3 text-slate-700"></i>
-                        <p class="text-base font-semibold">Tu carrito está vacío</p>
-                        <p class="text-xs">¡Agrega ropa o suplementos para comenzar!</p>
-                    </div>
-                `;
-                cartSubtotal.textContent = '$0.00 MXN';
-                cartTotal.textContent = '$0.00 MXN';
+                container.innerHTML = '<p style="text-align: center; color: var(--text-muted); margin-top: 30px;">Tu carrito está vacío.</p>';
+                totalEl.textContent = '$0 MXN';
+                countEl.textContent = '0';
                 return;
             }
 
-            let subtotal = 0;
+            let total = 0;
+            let totalItems = 0;
+            container.innerHTML = '';
 
             cart.forEach(item => {
-                subtotal += item.price * item.quantity;
+                total += item.price * item.quantity;
+                totalItems += item.quantity;
 
-                const itemElement = document.createElement('div');
-                itemElement.className = "pt-3 flex gap-3 items-center";
-                itemElement.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-lg object-cover border border-slate-800">
-                    <div class="flex-1">
-                        <h4 class="font-orbitron font-bold text-slate-200 text-xs line-clamp-1">${item.name}</h4>
-                        <span class="text-neonCyan font-orbitron font-bold text-xs">$${item.price} MXN</span>
-                        <div class="flex items-center gap-2 mt-1">
-                            <button onclick="changeQuantity(${item.id}, -1)" class="w-5 h-5 rounded bg-slate-800 text-slate-300 hover:bg-neonPurple flex items-center justify-center text-xs">-</button>
-                            <span class="text-xs font-orbitron font-bold text-slate-200">${item.quantity}</span>
-                            <button onclick="changeQuantity(${item.id}, 1)" class="w-5 h-5 rounded bg-slate-800 text-slate-300 hover:bg-neonCyan hover:text-darkBg flex items-center justify-center text-xs">+</button>
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+                itemEl.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.title}</div>
+                        <div class="cart-item-price">$${item.price.toLocaleString()} MXN</div>
+                        <div class="cart-item-qty">
+                            <button class="qty-btn" onclick="changeQuantity('${item.title}', -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="qty-btn" onclick="changeQuantity('${item.title}', 1)">+</button>
                         </div>
                     </div>
-                    <button onclick="removeFromCart(${item.id})" class="text-slate-500 hover:text-red-400 p-2 text-sm">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </button>
+                    <button class="remove-item-btn" onclick="removeFromCart('${item.title}')"><i class="fa-solid fa-trash"></i></button>
                 `;
-                cartItemsContainer.appendChild(itemElement);
+                container.appendChild(itemEl);
             });
 
-            cartSubtotal.textContent = `$${subtotal.toLocaleString()} MXN`;
-            cartTotal.textContent = `$${subtotal.toLocaleString()} MXN`;
+            totalEl.textContent = `$${total.toLocaleString()} MXN`;
+            countEl.textContent = totalItems;
         }
 
-        // CHANGE ITEM QUANTITY
-        function changeQuantity(productId, delta) {
-            const item = cart.find(i => i.id === productId);
-            if (!item) return;
-
-            item.quantity += delta;
-            if (item.quantity <= 0) {
-                removeFromCart(productId);
+        function toggleCart(forceOpen = false) {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            if (forceOpen || !drawer.classList.contains('active')) {
+                drawer.classList.add('active');
+                overlay.classList.add('active');
             } else {
-                updateCartUI();
+                drawer.classList.remove('active');
+                overlay.classList.remove('active');
             }
         }
 
-        // REMOVE FROM CART
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            updateCartUI();
-        }
-
-        // CART DRAWER TOGGLE
-        function openCart() {
-            cartDrawerBackdrop.classList.remove('hidden');
-            setTimeout(() => {
-                cartDrawerBackdrop.classList.add('opacity-100');
-                cartDrawer.classList.remove('translate-x-full');
-            }, 10);
-        }
-
-        function closeCart() {
-            cartDrawer.classList.add('translate-x-full');
-            cartDrawerBackdrop.classList.remove('opacity-100');
-            setTimeout(() => {
-                cartDrawerBackdrop.classList.add('hidden');
-            }, 300);
-        }
-
-        // QUICK VIEW MODAL
-        function openQuickView(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            const modalContent = document.getElementById('quickViewContent');
-            modalContent.innerHTML = `
-                <div class="h-64 rounded-xl overflow-hidden bg-slate-900 border border-slate-800">
-                    <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
-                </div>
-                <div class="space-y-3">
-                    <span class="text-xs font-orbitron font-bold text-neonCyan uppercase tracking-widest">${product.category}</span>
-                    <h3 class="font-orbitron font-bold text-xl text-slate-100">${product.name}</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed font-sans">${product.description}</p>
-                    <div class="text-xl font-orbitron font-extrabold text-slate-100">$${product.price} <span class="text-xs text-slate-400 font-normal">MXN</span></div>
-                    
-                    <button onclick="addToCart(${product.id}); closeQuickView(); openCart();" class="w-full py-3 rounded-xl bg-gradient-to-r from-neonPurple to-neonCyan text-white font-orbitron font-bold text-xs uppercase shadow-lg hover:opacity-90 transition">
-                        <i class="fa-solid fa-cart-plus mr-1"></i> Agregar al Carrito
-                    </button>
-                </div>
-            `;
-
-            document.getElementById('quickViewModal').classList.remove('hidden');
-        }
-
-        function closeQuickView() {
-            document.getElementById('quickViewModal').classList.add('hidden');
-        }
-
-        // CHECKOUT MOCK
-        function checkout() {
+        // REDIRECCIÓN AUTOMÁTICA A MERCADO PAGO SEGÚN MONTO
+        function payWithMercadoPago() {
             if (cart.length === 0) {
-                showToast("Carrito Vacío", "Agrega productos antes de pagar.");
+                alert('El carrito está vacío. Agrega productos para pagar.');
                 return;
             }
-            alert("¡Gracias por tu compra en SomaFitX! Redirigiendo a pasarela de pago segura...");
-            cart = [];
-            updateCartUI();
-            closeCart();
-        }
 
-        // TOAST NOTIFICATIONS
-        function showToast(title, message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastTitle').textContent = title;
-            document.getElementById('toastMessage').textContent = message;
+            let total = 0;
+            cart.forEach(item => total += (item.price * item.quantity));
 
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
-        // NEWSLETTER SUBMIT
-        function subscribeNewsletter(e) {
-            e.preventDefault();
-            showToast("¡Suscrito con Éxito!", "Revisa tu bandeja de entrada para tu código de descuento.");
-            e.target.reset();
-        }
-
-        // SETUP EVENT LISTENERS
-        function setupEventListeners() {
-            cartBtn.addEventListener('click', openCart);
-            closeCartBtn.addEventListener('click', closeCart);
-            cartDrawerBackdrop.addEventListener('click', closeCart);
-
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Live Search Logic
-            if (searchInput) {
-                searchInput.addEventListener('input', (e) => {
-                    const term = e.target.value.toLowerCase().trim();
-                    const filtered = products.filter(p => 
-                        p.name.toLowerCase().includes(term) || 
-                        p.category.toLowerCase().includes(term) ||
-                        p.description.toLowerCase().includes(term)
-                    );
-                    renderProducts(filtered);
-                });
+            // Dirigir al link de pago según el valor del carrito
+            if (total >= 3599) {
+                window.location.href = MP_LINK_3599;
+            } else {
+                window.location.href = MP_LINK_1599;
             }
+        }
 
-            const mobileSearch = document.getElementById('searchInputMobile');
-            if (mobileSearch) {
-                mobileSearch.addEventListener('input', (e) => {
-                    const term = e.target.value.toLowerCase().trim();
-                    const filtered = products.filter(p => 
-                        p.name.toLowerCase().includes(term) || 
-                        p.category.toLowerCase().includes(term)
-                    );
-                    renderProducts(filtered);
-                });
-            }
+        // MODAL ZOOM
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = imageSrc;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
         }
     </script>
+
 </body>
 </html>
