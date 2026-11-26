@@ -20,6 +20,7 @@
             --text-muted: #A0A5BA;
             --border-glow: #1A162B;
             --mp-blue: #009EE3;
+            --mp-glow: rgba(0, 158, 227, 0.45);
         }
 
         * {
@@ -254,12 +255,48 @@
         .section-header {
             text-align: center;
             margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
         }
 
         .section-title {
             font-size: 2.2rem;
             font-weight: 900;
             text-transform: uppercase;
+        }
+
+        /* BANNER / INSIGNIA MERCADO PAGO */
+        .mp-trust-banner {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 158, 227, 0.12);
+            border: 1px solid var(--mp-blue);
+            box-shadow: 0 0 18px rgba(0, 158, 227, 0.25);
+            padding: 10px 22px;
+            border-radius: 50px;
+            margin-top: 6px;
+        }
+
+        .mp-logo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--mp-blue);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+        }
+
+        .mp-trust-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
         .grid-products {
@@ -361,9 +398,17 @@
             color: var(--blue-neon);
         }
 
+        /* BOTONES DE ACCIÓN EN TARJETA */
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
         .add-to-cart-btn {
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             border: none;
             background: linear-gradient(135deg, var(--purple-neon), var(--blue-neon));
             color: #fff;
@@ -372,13 +417,65 @@
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
-            font-size: 0.9rem;
-            margin-top: 10px;
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .add-to-cart-btn:hover {
             transform: translateY(-2px);
-            filter: brightness(1.2);
+            filter: brightness(1.15);
+        }
+
+        .buy-now-btn {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid var(--mp-blue);
+            background: var(--mp-blue);
+            color: #fff;
+            font-weight: 900;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 0 12px rgba(0, 158, 227, 0.35);
+        }
+
+        .buy-now-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 22px var(--mp-glow);
+            filter: brightness(1.1);
+        }
+
+        .buy-now-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .card-mp-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            padding-top: 4px;
+        }
+
+        .card-mp-badge i {
+            color: var(--mp-blue);
+            font-size: 0.9rem;
+        }
+
+        .card-mp-badge strong {
+            color: var(--mp-blue);
         }
 
         .empty-category-msg {
@@ -592,9 +689,13 @@
 
         footer {
             background: #040308;
-            padding: 40px 5% 20px 5%;
+            padding: 40px 5% 25px 5%;
             border-top: 1px solid rgba(160, 0, 255, 0.2);
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
         }
 
         @media (max-width: 992px) {
@@ -627,6 +728,11 @@
             }
             .dual-img-box {
                 grid-template-columns: 1fr;
+            }
+            .mp-trust-banner {
+                flex-direction: column;
+                border-radius: 16px;
+                padding: 12px 18px;
             }
         }
     </style>
@@ -665,7 +771,7 @@
             <span class="hero-tag">EDICIÓN EXCLUSIVA</span>
             <h1 class="hero-title">Evoluciona tu <span class="purple">Fuerza</span> & <span class="blue">Estilo</span></h1>
             <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin-bottom: 25px;">
-                Colección oficial Spider-Man X Civil Regime. Pagos 100% seguros con Mercado Pago.
+                Colección oficial Spider-Man X Civil Regime. Compra directo o arma tu carrito con protección al comprador.
             </p>
 
             <div class="slogan-bar">
@@ -694,11 +800,17 @@
     <section class="products-section" id="productos">
         <div class="section-header">
             <h2 class="section-title" id="categoryTitle">Catálogo de Productos</h2>
-            <p style="color: var(--text-muted);">Aceptamos Tarjetas de Crédito, Débito y Efectivo vía Mercado Pago</p>
+            <div class="mp-trust-banner">
+                <span class="mp-logo-badge">
+                    <i class="fa-solid fa-handshake"></i> mercado pago
+                </span>
+                <span class="mp-trust-text">Aceptamos pagos con Mercado Pago (Tarjetas de Crédito, Débito, MSI y Efectivo)</span>
+            </div>
         </div>
 
         <div class="grid-products">
 
+            <!-- SUDADERA ROJA -->
             <div class="product-card" data-category="sudaderas exclusivas">
                 <div class="dual-img-box">
                     <div class="img-wrapper" onclick="openModal('Sudadera Spiderman Frontal.JPG')">
@@ -714,12 +826,21 @@
                     <span class="product-cat">Sudaderas • Colección Exclusiva</span>
                     <h3 class="product-title">Sudadera Full Zip Civil Regime Spider-Man (Roja)</h3>
                     <div class="product-price">$300 MXN</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Sudadera Civil Regime Spider-Man Roja', 300, 'Sudadera Spiderman Frontal.JPG')">
-                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
-                    </button>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart('Sudadera Civil Regime Spider-Man Roja', 300, 'Sudadera Spiderman Frontal.JPG')">
+                            <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                        </button>
+                        <button class="buy-now-btn" onclick="buyNow(this, 'Sudadera Civil Regime Spider-Man Roja', 300)">
+                            <i class="fa-solid fa-bolt"></i> Pagar Ahora
+                        </button>
+                        <div class="card-mp-badge">
+                            <i class="fa-solid fa-handshake"></i> Aceptamos pagos con <strong>Mercado Pago</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- SUDADERA BLANCA -->
             <div class="product-card" data-category="sudaderas exclusivas">
                 <div class="dual-img-box">
                     <div class="img-wrapper" onclick="openModal('Spiderman Blanca adelante.JPG')">
@@ -735,12 +856,21 @@
                     <span class="product-cat">Sudaderas • Colección Exclusiva</span>
                     <h3 class="product-title">Sudadera / Combo Spiderman Blanca (Frente & Atrás)</h3>
                     <div class="product-price">$300 MXN</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Sudadera Spiderman Blanca (Frente & Atrás)', 300, 'Spiderman Blanca adelante.JPG')">
-                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
-                    </button>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart('Sudadera Spiderman Blanca (Frente & Atrás)', 300, 'Spiderman Blanca adelante.JPG')">
+                            <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                        </button>
+                        <button class="buy-now-btn" onclick="buyNow(this, 'Sudadera Spiderman Blanca (Frente & Atrás)', 300)">
+                            <i class="fa-solid fa-bolt"></i> Pagar Ahora
+                        </button>
+                        <div class="card-mp-badge">
+                            <i class="fa-solid fa-handshake"></i> Aceptamos pagos con <strong>Mercado Pago</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- PLAYERA CIVIL -->
             <div class="product-card" data-category="playeras exclusivas">
                 <div class="single-img-wrapper" onclick="openModal('Playera Civil.JPG')">
                     <img src="Playera Civil.JPG" alt="Playera Civil">
@@ -750,12 +880,21 @@
                     <span class="product-cat">Playeras</span>
                     <h3 class="product-title">Playera Civil</h3>
                     <div class="product-price">$1,000 MXN</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Playera Civil', 1000, 'Playera Civil.JPG')">
-                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
-                    </button>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart('Playera Civil', 1000, 'Playera Civil.JPG')">
+                            <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                        </button>
+                        <button class="buy-now-btn" onclick="buyNow(this, 'Playera Civil', 1000)">
+                            <i class="fa-solid fa-bolt"></i> Pagar Ahora
+                        </button>
+                        <div class="card-mp-badge">
+                            <i class="fa-solid fa-handshake"></i> Aceptamos pagos con <strong>Mercado Pago</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- PLAYERA SPIDERMAN GORRO -->
             <div class="product-card" data-category="playeras exclusivas">
                 <div class="single-img-wrapper" onclick="openModal('Playera Spiderman Gorro.JPG')">
                     <img src="Playera Spiderman Gorro.JPG" alt="Playera Spiderman Gorro">
@@ -765,12 +904,21 @@
                     <span class="product-cat">Playeras</span>
                     <h3 class="product-title">Playera Spiderman Gorro</h3>
                     <div class="product-price">$1,000 MXN</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman Gorro', 1000, 'Playera Spiderman Gorro.JPG')">
-                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
-                    </button>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman Gorro', 1000, 'Playera Spiderman Gorro.JPG')">
+                            <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                        </button>
+                        <button class="buy-now-btn" onclick="buyNow(this, 'Playera Spiderman Gorro', 1000)">
+                            <i class="fa-solid fa-bolt"></i> Pagar Ahora
+                        </button>
+                        <div class="card-mp-badge">
+                            <i class="fa-solid fa-handshake"></i> Aceptamos pagos con <strong>Mercado Pago</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- PLAYERA SPIDERMAN MOCHILA -->
             <div class="product-card" data-category="playeras exclusivas">
                 <div class="single-img-wrapper" onclick="openModal('Playera Spiderman Mochila.JPG')">
                     <img src="Playera Spiderman Mochila.JPG" alt="Playera Spiderman Mochila">
@@ -780,12 +928,21 @@
                     <span class="product-cat">Playeras</span>
                     <h3 class="product-title">Playera Spiderman Mochila</h3>
                     <div class="product-price">$1,000 MXN</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman Mochila', 1000, 'Playera Spiderman Mochila.JPG')">
-                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
-                    </button>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman Mochila', 1000, 'Playera Spiderman Mochila.JPG')">
+                            <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                        </button>
+                        <button class="buy-now-btn" onclick="buyNow(this, 'Playera Spiderman Mochila', 1000)">
+                            <i class="fa-solid fa-bolt"></i> Pagar Ahora
+                        </button>
+                        <div class="card-mp-badge">
+                            <i class="fa-solid fa-handshake"></i> Aceptamos pagos con <strong>Mercado Pago</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- PLAYERA SPIDERMAN -->
             <div class="product-card" data-category="playeras exclusivas">
                 <div class="single-img-wrapper" onclick="openModal('Playera Spiderman.JPG')">
                     <img src="Playera Spiderman.JPG" alt="Playera Spiderman">
@@ -795,9 +952,17 @@
                     <span class="product-cat">Playeras</span>
                     <h3 class="product-title">Playera Spiderman</h3>
                     <div class="product-price">$1,000 MXN</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman', 1000, 'Playera Spiderman.JPG')">
-                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
-                    </button>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart('Playera Spiderman', 1000, 'Playera Spiderman.JPG')">
+                            <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                        </button>
+                        <button class="buy-now-btn" onclick="buyNow(this, 'Playera Spiderman', 1000)">
+                            <i class="fa-solid fa-bolt"></i> Pagar Ahora
+                        </button>
+                        <div class="card-mp-badge">
+                            <i class="fa-solid fa-handshake"></i> Aceptamos pagos con <strong>Mercado Pago</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -836,7 +1001,13 @@
 
     <footer id="contacto">
         <span class="logo-text">SomaFitX</span>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 15px;">&copy; 2026 SomaFitX. Todos los derechos reservados. Pagos procesados por Mercado Pago.</p>
+        <div class="mp-trust-banner">
+            <span class="mp-logo-badge">
+                <i class="fa-solid fa-handshake"></i> mercado pago
+            </span>
+            <span class="mp-trust-text">Aceptamos pagos con Mercado Pago</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">&copy; 2026 SomaFitX. Todos los derechos reservados.</p>
     </footer>
 
     <script>
@@ -964,17 +1135,11 @@
             }
         }
 
-        async function payWithMercadoPago() {
-            if (cart.length === 0) {
-                alert('El carrito está vacío. Agrega productos para pagar.');
-                return;
-            }
-
-            const checkoutBtn = document.querySelector('.mp-checkout-btn');
-            const originalText = checkoutBtn.innerHTML;
-            
-            checkoutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
-            checkoutBtn.disabled = true;
+        // FUNCIÓN COMPARTIDA PARA CREAR PREFERENCIA EN MERCADO PAGO
+        async function processMercadoPagoCheckout(itemsToPay, buttonElement) {
+            const originalText = buttonElement.innerHTML;
+            buttonElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
+            buttonElement.disabled = true;
 
             try {
                 const response = await fetch('/api/crear-preferencia', {
@@ -982,7 +1147,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ items: cart })
+                    body: JSON.stringify({ items: itemsToPay })
                 });
 
                 const data = await response.json();
@@ -991,15 +1156,31 @@
                     window.location.href = data.init_point;
                 } else {
                     alert('Hubo un problema al generar el enlace de pago.');
-                    checkoutBtn.innerHTML = originalText;
-                    checkoutBtn.disabled = false;
+                    buttonElement.innerHTML = originalText;
+                    buttonElement.disabled = false;
                 }
             } catch (error) {
                 console.error('Error:', error);
                 alert('Error de conexión al procesar el pago.');
-                checkoutBtn.innerHTML = originalText;
-                checkoutBtn.disabled = false;
+                buttonElement.innerHTML = originalText;
+                buttonElement.disabled = false;
             }
+        }
+
+        // PAGAR DIRECTO UN SOLO PRODUCTO DESDE SU TARJETA
+        function buyNow(btn, title, price) {
+            const singleItem = [{ title: title, price: price, quantity: 1 }];
+            processMercadoPagoCheckout(singleItem, btn);
+        }
+
+        // PAGAR TODO EL CARRITO
+        function payWithMercadoPago() {
+            if (cart.length === 0) {
+                alert('El carrito está vacío. Agrega productos para pagar.');
+                return;
+            }
+            const checkoutBtn = document.querySelector('.mp-checkout-btn');
+            processMercadoPagoCheckout(cart, checkoutBtn);
         }
 
         function openModal(imageSrc) {
