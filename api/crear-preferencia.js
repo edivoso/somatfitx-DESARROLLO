@@ -26,7 +26,8 @@ export default async function handler(req, res) {
                     failure: 'https://somafitx-desa.vercel.app/',
                     pending: 'https://somafitx-desa.vercel.app/'
                 },
-                auto_return: 'approved'
+                auto_return: 'approved',
+                notification_url: 'https://somafitx-desa.vercel.app/api/webhook'
             })
         });
 
